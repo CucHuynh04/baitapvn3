@@ -1,4 +1,5 @@
-﻿using System;
+//form1
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,28 +20,69 @@ namespace MDI
 
         private void openImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Mở  hộp thoại chọn file
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            OpenFileDialog oFile = new OpenFileDialog();
+            oFile.Filter = "Bitmap file|*.bmp|JPEG file|*.jpg";
+            if (oFile.ShowDialog() == DialogResult.OK)
             {
-                // Tạo form con để hiển thị ảnh
-                Form childForm = new Form();
-                childForm.MdiParent = this; // Đặt form con thuộc form cha
-
-                // Thêm PictureBox để hiển thị ảnh
-                PictureBox pictureBox = new PictureBox();
-                pictureBox.Dock = DockStyle.Fill; // Phủ kín form con
-                pictureBox.Image = Image.FromFile(openFileDialog.FileName); // Tải ảnh từ file
-                pictureBox.SizeMode = PictureBoxSizeMode.Zoom; // Co giãn ảnh phù hợp với form
-
-                // Thêm PictureBox vào form con
-                childForm.Controls.Add(pictureBox);
-                childForm.Text = openFileDialog.FileName; // Đặt tên form con bằng đường dẫn file
-                childForm.Show(); // Hiển thị form con
+                Form2 frm = new Form2(oFile.FileName);
+                frm.MdiParent = this;
+                frm.Show();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void casadeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void tileHorizotalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileHorizontal);
+        }
+
+        private void tileVerticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileVertical);
         }
     }
 }
+
+//form2
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace MDI
+{
+    public partial class Form2 : Form
+    {
+        public Form2()
+        {
+            InitializeComponent();
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
+        public Form2(string imageFile)
+        {
+            InitializeComponent();
+            pictureBox1.Image = Image.FromFile(imageFile);
+            Text = imageFile.Substring(imageFile.LastIndexOf('\\') + 1);
+        }
+    }
+}
+
 
